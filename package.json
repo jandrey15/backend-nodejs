@@ -1,0 +1,35 @@
+{
+  "name": "backendnodejs",
+  "version": "1.0.0",
+  "description": "Backend Node.js",
+  "main": "index.js",
+  "scripts": {
+    "dev": "DEBUG=app:* nodemon index",
+    "devWind": "cross-env DEBUG=app:* nodemon index",
+    "start": "NODE_ENV=production node index",
+    "startWind": "cross-env NODE_ENV=production node index",
+    "lint": "standard --fix"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "keywords": [],
+  "author": "John Serrano <jandreys15@gmail.com> (https://twitter.com/Jandrey15)",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "eslint-plugin-node": "^11.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^6.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.2",
+    "standard": "^14.3.1"
+  }
+}
