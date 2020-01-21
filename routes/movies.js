@@ -1,14 +1,16 @@
 const express = require('express')
-const { moviesMock } = require('../utils/mocks/movies')
+const MoviesService = require('../services/movies')
 
 function moviesApi (app) {
   const router = express.Router()
-
   app.use('/api/movies', router)
 
+  const moviesService = new MoviesService()
+
   router.get('/', async function (req, res, next) {
+    const { tags } = req.query
     try {
-      const movies = await Promise.resolve(moviesMock)
+      const movies = await moviesService.getMovies({ tags })
 
       res.status(200).json({
         data: movies,
@@ -20,8 +22,10 @@ function moviesApi (app) {
   })
 
   router.get('/:movieId', async function (req, res, next) {
+    const { movieId } = req.params
+
     try {
-      const movie = await Promise.resolve(moviesMock[0])
+      const movie = await moviesService.getMovie({ movieId })
 
       res.status(200).json({
         data: movie,
@@ -33,8 +37,10 @@ function moviesApi (app) {
   })
 
   router.post('/', async function (req, res, next) {
+    const { body: movie } = req
+
     try {
-      const createdMovieId = await Promise.resolve(moviesMock[0].id)
+      const createdMovieId = await moviesService.createMovie({ movie })
 
       res.status(201).json({
         data: createdMovieId,
@@ -46,8 +52,11 @@ function moviesApi (app) {
   })
 
   router.put('/:movieid', async function (req, res, next) {
+    const { movieId } = req.params
+    const { body: movie } = req
+
     try {
-      const updateMovieId = await Promise.resolve(moviesMock[0].id)
+      const updateMovieId = await moviesService.updateMovie({ movieId, movie })
 
       res.status(200).json({
         data: updateMovieId,
@@ -59,8 +68,10 @@ function moviesApi (app) {
   })
 
   router.delete('/:moviewId', async function (req, res, next) {
+    const { movieId } = req.params
+
     try {
-      const deletedMovieId = await Promise.resolve(moviesMock[0].id)
+      const deletedMovieId = await moviesService.deleteMovie({ movieId })
 
       res.status(200).json({
         data: deletedMovieId,
