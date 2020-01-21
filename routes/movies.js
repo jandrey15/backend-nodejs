@@ -44,14 +44,15 @@ function moviesApi (app) {
 
       res.status(201).json({
         data: createdMovieId,
-        message: 'movies created'
+        message: 'movie created'
       })
     } catch (err) {
       next(err)
     }
   })
 
-  router.put('/:movieid', async function (req, res, next) {
+  // PUT Reemplazar datos.
+  router.put('/:movieId', async function (req, res, next) {
     const { movieId } = req.params
     const { body: movie } = req
 
@@ -60,14 +61,14 @@ function moviesApi (app) {
 
       res.status(200).json({
         data: updateMovieId,
-        message: 'movies update'
+        message: 'movie update'
       })
     } catch (err) {
       next(err)
     }
   })
 
-  router.delete('/:moviewId', async function (req, res, next) {
+  router.delete('/:movieId', async function (req, res, next) {
     const { movieId } = req.params
 
     try {
@@ -75,7 +76,24 @@ function moviesApi (app) {
 
       res.status(200).json({
         data: deletedMovieId,
-        message: 'movies deleted'
+        message: 'movie deleted'
+      })
+    } catch (err) {
+      next(err)
+    }
+  })
+
+  // PATCH Actualizar datos en un recurso específico.
+  router.patch('/:movieId', async function (req, res, next) {
+    const { movieId } = req.params
+    const { body: movie } = req
+
+    try {
+      const updateMovieId = await moviesService.patchMovie({ movieId, movie })
+
+      res.status(200).json({
+        data: updateMovieId,
+        message: 'movie modified'
       })
     } catch (err) {
       next(err)
