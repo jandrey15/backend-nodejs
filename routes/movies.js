@@ -1,6 +1,14 @@
 const express = require('express')
 const MoviesService = require('../services/movies')
 
+const {
+  movieIdSchema,
+  createMovieSchema,
+  updateMovieSchema
+} = require('../utils/schemas/movies')
+
+const validationHandler = require('../utils/middleware/validationHandler')
+
 function moviesApi (app) {
   const router = express.Router()
   app.use('/api/movies', router)
@@ -21,7 +29,7 @@ function moviesApi (app) {
     }
   })
 
-  router.get('/:movieId', async function (req, res, next) {
+  router.get('/:movieId', validationHandler({ movieId: movieIdSchema }, 'params'), async function (req, res, next) {
     const { movieId } = req.params
 
     try {
@@ -36,7 +44,7 @@ function moviesApi (app) {
     }
   })
 
-  router.post('/', async function (req, res, next) {
+  router.post('/', validationHandler(createMovieSchema), async function (req, res, next) {
     const { body: movie } = req
 
     try {
@@ -52,23 +60,24 @@ function moviesApi (app) {
   })
 
   // PUT Reemplazar datos.
-  router.put('/:movieId', async function (req, res, next) {
-    const { movieId } = req.params
-    const { body: movie } = req
+  router.put('/:movieId', validationHandler({ movieId: movieIdSchema }, 'params'),
+    validationHandler(updateMovieSchema), async function (req, res, next) {
+      const { movieId } = req.params
+      const { body: movie } = req
 
-    try {
-      const updateMovieId = await moviesService.updateMovie({ movieId, movie })
+      try {
+        const updateMovieId = await moviesService.updateMovie({ movieId, movie })
 
-      res.status(200).json({
-        data: updateMovieId,
-        message: 'movie update'
-      })
-    } catch (err) {
-      next(err)
-    }
-  })
+        res.status(200).json({
+          data: updateMovieId,
+          message: 'movie update'
+        })
+      } catch (err) {
+        next(err)
+      }
+    })
 
-  router.delete('/:movieId', async function (req, res, next) {
+  router.delete('/:movieId', validationHandler({ movieId: movieIdSchema }, 'params'), async function (req, res, next) {
     const { movieId } = req.params
 
     try {
@@ -84,21 +93,22 @@ function moviesApi (app) {
   })
 
   // PATCH Actualizar datos en un recurso específico.
-  router.patch('/:movieId', async function (req, res, next) {
-    const { movieId } = req.params
-    const { body: movie } = req
+  router.patch('/:movieId', validationHandler({ movieId: movieIdSchema }, 'params'),
+    validationHandler(updateMovieSchema), async function (req, res, next) {
+      const { movieId } = req.params
+      const { body: movie } = req
 
-    try {
-      const updateMovieId = await moviesService.patchMovie({ movieId, movie })
+      try {
+        const updateMovieId = await moviesService.patchMovie({ movieId, movie })
 
-      res.status(200).json({
-        data: updateMovieId,
-        message: 'movie modified'
-      })
-    } catch (err) {
-      next(err)
-    }
-  })
+        res.status(200).json({
+          data: updateMovieId,
+          message: 'movie modified'
+        })
+      } catch (err) {
+        next(err)
+      }
+    })
 }
 
 module.exports = moviesApi

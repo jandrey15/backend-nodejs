@@ -17,6 +17,8 @@
   "author": "John Serrano <jandreys15@gmail.com> (https://twitter.com/Jandrey15)",
   "license": "ISC",
   "dependencies": {
+    "@hapi/boom": "^9.0.0",
+    "@hapi/joi": "^17.1.0",
     "dotenv": "^8.2.0",
     "eslint-plugin-node": "^11.0.0",
     "express": "^4.17.1",
