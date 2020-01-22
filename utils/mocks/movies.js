@@ -9,6 +9,22 @@ const moviesMock = [{ id: 'c9200d8c-b0b1-44ff-8d28-1ec669c393f8', title: 'Zach G
   { id: '7f9e0ef7-bac9-4827-9c75-94f1a32b994b', title: 'Pretty One, The', year: 1993, cover: 'http://dummyimage.com/181x225.png/cc0000/ffffff', description: 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.\n\nMaecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', duration: 99, contentRating: 'R', source: 'http://accuweather.com/aliquam/augue/quam.json', tags: ['Comedy|Romance', 'Horror|Thriller', 'Drama|War', 'Drama'] },
   { id: '563b12e2-f5b9-4a99-b809-08f06b0b247c', title: 'Sansho the Bailiff (Sanshô dayû)', year: 1994, cover: 'http://dummyimage.com/168x225.png/ff4444/ffffff', description: 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', duration: 5, contentRating: 'G', source: 'http://blogspot.com/rutrum/ac/lobortis/vel/dapibus/at.json', tags: ['Crime|Mystery|Thriller', 'Comedy|Drama|Romance', 'Adventure|Children|Comedy|Drama|Fantasy', 'Action|Adventure|Thriller'] }]
 
+function filteredMoviesMock (tag) {
+  return moviesMock.filter(movie => movie.tags.includes(tag))
+}
+
+class MoviesServiceMock {
+  async getMovies () {
+    return Promise.resolve(moviesMock)
+  }
+
+  async createMovie () {
+    return Promise.resolve(moviesMock[0])
+  }
+}
+
 module.exports = {
-  moviesMock
+  moviesMock,
+  filteredMoviesMock,
+  MoviesServiceMock
 }
