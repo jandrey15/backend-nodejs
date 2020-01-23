@@ -1,7 +1,7 @@
 const assert = require('assert')
 const buildMessage = require('../utils/buildMessage')
 
-// I'm just going to do this test
+// I'm just going to run this test
 describe.only('utils - buildMessage', function () {
   describe('when receives na entity and an action', function () {
     it('should return the respective message', function () {
