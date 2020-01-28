@@ -10,6 +10,9 @@ const { createUserSchema } = require('../utils/schemas/users')
 
 const { config } = require('../config')
 
+const ONE_DAY_IN_SECONDS = 86400
+const TWO_MONTHS_IN_SECONDS = 5184000
+
 // Basic strategy
 require('../utils/auth/strategies/basic')
 
@@ -21,7 +24,7 @@ function authApi (app) {
   const usersService = new UsersService()
 
   router.post('/sign-in', async function (req, res, next) {
-    const { apiKeyToken } = req.body
+    const { apiKeyToken, rememberMe } = req.body
 
     if (!apiKeyToken) {
       next(boom.unauthorized('apiKeyToken is required'))
@@ -54,7 +57,7 @@ function authApi (app) {
           }
 
           const token = jwt.sign(payload, config.authJwtSecret, {
-            expiresIn: '15m'
+            expiresIn: rememberMe ? TWO_MONTHS_IN_SECONDS : ONE_DAY_IN_SECONDS
           })
 
           return res.status(200).json({ token, user: { id, name, email } })
