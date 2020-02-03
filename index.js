@@ -1,4 +1,5 @@
 const express = require('express')
+const helmet = require('helmet')
 const app = express()
 
 const { config } = require('./config/index')
@@ -10,6 +11,7 @@ const notFoundHandler = require('./utils/middleware/notFoundHandler')
 
 // body-parser
 app.use(express.json())
+app.use(helmet())
 
 // Routes
 authApi(app)
