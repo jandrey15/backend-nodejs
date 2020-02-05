@@ -19,12 +19,12 @@ function userMoviesApi (app) {
   const userMoviesService = new UserMoviesService()
 
   router.get(
-    '/:userId',
+    '/',
     passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['read:user-movies']),
-    validationHandler({ userId: userIdSchema }),
+    validationHandler({ userId: userIdSchema }, 'query'),
     async function (req, res, next) {
-      const { userId } = req.params
+      const { userId } = req.query
 
       try {
         const userMovies = await userMoviesService.getUserMovies({ userId })
